@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: vazir;
+  font-style: normal;
+  font-weight: 100;
+  src: url('../fonts/Vazir-Thin.eot');
+  src: url('../fonts/Vazir-Thin.ttf') format('ttf'),
+    url('../fonts/Vazir-Thin.woff') format('woff'),
+    url('../fonts/Vazir-Thin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: vazir;
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/Vazir-Light.eot');
+  src: url('../fonts/Vazir-Light.ttf') format('ttf'),
+    url('../fonts/Vazir-Light.woff') format('woff'),
+    url('../fonts/Vazir-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: vazir;
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Vazir-Medium.eot');
+  src: url('../fonts/Vazir-Medium.ttf') format('ttf'),
+    url('../fonts/Vazir-Medium.woff') format('woff'),
+    url('../fonts/Vazir-Medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: vazir;
+  font-style: normal;
+  font-weight: 950;
+  src: url('../fonts/Vazir-Bold.eot');
+  src: url('../fonts/Vazir-Bold.ttf') format('ttf'),
+    url('../fonts/Vazir-Bold.woff') format('woff'),
+    url('../fonts/Vazir-Bold.woff2') format('woff2');
+}
+
+@layer base {
+  :root {
+    --primary: #FF7901;
+    --secondary: #FECF3E;
+    --tertiary: #342277;
+    --purple-50: #0B093A;
+    --purple-100: #D6D3E4;
+    --danger: #EA4335;
+    --success: #1EA73E;
+    --orange-200: #FFA14D;
+    --orange-100: #FFAF67;
+    --default-50: #FCFCFC;
+    --default-100: #D3D3D3;
+    --default-200: #969696;
+    --default-300: #525252;
+    --default-400: #454545;
+    --default-500: #0F0F0F;
+  }
+
+  body {
+    @apply min-h-screen;
+    font-family: 'vazir';
+  }
+
+  input {
+    outline: none;
+  }
+
+  .myInput {
+    position: absolute;
+    height: 2rem;
+    margin: auto;
+    width: 1px;
+    background-color: black;
+  }
+
+  .modal-box {
+    @apply !max-h-full !h-full !rounded-none !p-0;
+  }
+}
