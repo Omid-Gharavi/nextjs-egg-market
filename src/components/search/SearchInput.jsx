@@ -7,10 +7,12 @@ const SearchInput = () => {
     const [datas, setDatas] = useState([])
     const [input, setInput] = useState('')
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api');
+                const response = await fetch(`${API_URL}/api`);
                 const data = await response.json();
                 setDatas(data || []);
             } catch (error) {
@@ -22,7 +24,7 @@ const SearchInput = () => {
 
     const handleKeyDown = async (e) => {
         if (e.key === "Enter") {
-            await fetch('http://localhost:3000/api', {
+            await fetch(`${API_URL}/api`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
