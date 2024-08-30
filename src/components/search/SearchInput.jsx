@@ -92,7 +92,7 @@ const SearchInput = () => {
                                 </div>
                                 {list.trash && <span
                                     onClick={async () => {
-                                        await fetch('http://localhost:3000/api', { method: 'DELETE' })
+                                        await fetch(`${API_URL}/api`, { method: 'DELETE' })
                                         setDatas([])
                                     }}
                                     className='icon-trash mr-auto'></span>}
