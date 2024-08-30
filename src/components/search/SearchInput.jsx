@@ -64,7 +64,7 @@ const SearchInput = () => {
         <>
             <div className='flex items-center gap-4 px-6'>
                 <form method='dialog' className='pt-6'>
-                    <button>
+                    <button className='outline-none'>
                         <span className='icon-Vector text-default-200 text-[11.5px]'></span>
                     </button>
                 </form>
@@ -74,7 +74,7 @@ const SearchInput = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={handleKeyDown}
                         className='outline-none w-full text-default-200'
-                        type="text"
+                        type="search"
                         placeholder='جستجو در بازار اگمارکت' />
                 </label>
             </div>
