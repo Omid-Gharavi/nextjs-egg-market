@@ -16,9 +16,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl">
       <body className={`${inter.className} font-[vazir]`}>
-        <Path excludePath={['/about', '/calculator', '/auth/register', '/auth/code', '/auth/password', '/auth/signup']} childProp={<Header />}></Path>
+        <Path excludePath={[`${process.env.NEXT_PUBLIC_API_URL}/about`, `${process.env.NEXT_PUBLIC_API_URL}/calculator`, `${process.env.NEXT_PUBLIC_API_URL}/auth/register`, `${process.env.NEXT_PUBLIC_API_URL}/auth/code`, `${process.env.NEXT_PUBLIC_API_URL}/auth/password`, `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`]} childProp={<Header />}></Path>
         {children}
-        <Path excludePath={['/about', '/calculator', '/auth/register', '/auth/code', '/auth/password', '/auth/signup']} childProp={<Footer />}></Path>
+        <Path excludePath={[`${process.env.NEXT_PUBLIC_API_URL}/about`, `${process.env.NEXT_PUBLIC_API_URL}/calculator`, `${process.env.NEXT_PUBLIC_API_URL}/auth/register`, `${process.env.NEXT_PUBLIC_API_URL}/auth/code`, `${process.env.NEXT_PUBLIC_API_URL}/auth/password`, `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`]} childProp={<Footer />}></Path>
       </body>
     </html>
   );
