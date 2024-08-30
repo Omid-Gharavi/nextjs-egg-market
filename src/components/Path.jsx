@@ -7,7 +7,7 @@ export default function Path({ childProp, excludePath = [] }) {
 
     return (
         <>
-            {excludePath.includes(`${process.env.NEXT_PUBLIC_API_URL}${path}`) ? undefined : childProp}
+            {excludePath.includes(`${process.env.NEXT_PUBLIC_API_URL}${path}`) ? <div></div> : childProp}
         </>
     );
 }
