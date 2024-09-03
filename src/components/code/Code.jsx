@@ -33,7 +33,7 @@ const Code = () => {
                             dir='ltr'
                             value={value}
                             className={`text-center w-[55px] h-[55px] rounded-lg border-[1px] border-solid ${inputValue[index] !== '' ? 'border-tertiary' : 'border-default-100'} max-sm:w-12 max-sm:h-12 text-[28px] font-bold`}
-                            type="text"
+                            type="tel"
                             maxLength={1}
                             onClick={(e) => {
                                 inputRefs.current[index].setSelectionRange(1, 2)
