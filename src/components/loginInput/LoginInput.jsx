@@ -50,10 +50,20 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
                         const currentPosition = inputRef.current.selectionStart;
                         setTimeout(() => {
                             setCaretPosition(currentPosition);
-                            inputRef.current.focus();
+                            // inputRef.current.focus();
                             inputRef.current.selectionStart = currentPosition;
                             inputRef.current.selectionEnd = currentPosition;
                         }, 0);
+                    }
+                }}
+                onMouseDown={(e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        e.preventDefault();
+                    }
+                }}
+                onTouchStart={(e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        e.preventDefault();
                     }
                 }}
                 className={`cursor-pointer absolute top-[50%] translate-y-[-50%] right-4 text-2xl ${inputValue === '' ? 'icon-Show' : type ? 'icon-Hide' : 'icon-Show-fill'}`}></span>
