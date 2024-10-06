@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import LoginButton from "@/components/loginButton/LoginButton";
 import LoginInput from "@/components/loginInput/LoginInput";
@@ -7,22 +7,22 @@ import { useRef, useState } from "react";
 import { z } from "zod";
 
 export default function SignUpPage() {
-    const [inputValue, setInputValue] = useState('')
-    const [inputValueVerify, setInputValueVerify] = useState('')
-    const [state, setState] = useState([false, false, false])
-    const [verify, setVerify] = useState(false)
-    const inputRef = useRef()
-    const inputRefVerify = useRef()
-    const router = useRouter()
+    const [inputValue, setInputValue] = useState("");
+    const [inputValueVerify, setInputValueVerify] = useState("");
+    const [state, setState] = useState([false, false, false]);
+    const [verify, setVerify] = useState(false);
+    const inputRef = useRef();
+    const inputRefVerify = useRef();
+    const router = useRouter();
 
-    const characterMin = z.string().min(8)
-    const english = z.string().regex(/[a-zA-Z]/)
-    const number = z.string().regex(/[0-9]/)
+    const characterMin = z.string().min(8);
+    const english = z.string().regex(/[a-zA-Z]/);
+    const number = z.string().regex(/[0-9]/);
 
     return (
         <>
             <div className="mt-10">
-                <p>رمز عبور جدید</p>
+                <p className="text-default-700">رمز عبور جدید</p>
                 <LoginInput
                     className={'mt-3'}
                     inputRef={inputRef}
@@ -42,15 +42,15 @@ export default function SignUpPage() {
             <ul className="flex flex-col gap-1 mt-3">
                 {
                     ['حداقل ۸ کاراکتر', 'شامل حروف انگلیسی', 'شامل عدد'].map((list, index) => (
-                        <li className={`flex gap-1 ${state[index] ? 'text-success' : 'text-default-100'}`} key={index + 1}>
-                            <span className={`text-lg ${state[index] ? 'icon-tick' : 'icon-circle'}`}></span>
+                        <li className={`flex items-center gap-1 ${state[index] ? 'text-success' : 'text-default-500'}`} key={index + 1}>
+                            <span className={`text-lg ${state[index] ? 'icon-light-linear-Tick' : 'text-[6px] icon-light-bold-Record-input'}`}></span>
                             <p>{list}</p>
                         </li>
                     ))
                 }
             </ul>
             <div className="mt-6">
-                <p>تکرار رمز عبور جدید</p>
+                <p className="text-default-700">تکرار رمز عبور جدید</p>
                 <LoginInput
                     className={'mt-2'}
                     disabled={!state.every(s => s)}
@@ -67,7 +67,7 @@ export default function SignUpPage() {
             </div>
             <LoginButton onClick={() => {
                 verify && router.push('/')
-            }} className={`mt-6 ${verify ? 'bg-primary text-default-500' : 'bg-orange-100 text-default-100'}`} text={'تعیین رمز عبور'} />
+            }} className={`mt-6 ${verify ? 'bg-primary text-default-900' : 'bg-orange-100 text-default-100'}`} text={'تعیین رمز عبور'} />
         </>
     )
 }

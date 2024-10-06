@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import './style.css'
-import Header from "@/components/header/Header"
+import "../../public/assets/fonts/icomoon/style.css";
+import Header from "@/components/header/Header";
 import Path from "@/components/Path";
 import Footer from "@/components/footer/Footer";
 
@@ -14,11 +14,57 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fa" dir="rtl">
-      <body className={`${inter.className} font-[vazir]`}>
-        <Path excludePath={[`${process.env.NEXT_PUBLIC_API_URL}/about`, `${process.env.NEXT_PUBLIC_API_URL}/calculator`, `${process.env.NEXT_PUBLIC_API_URL}/auth/register`, `${process.env.NEXT_PUBLIC_API_URL}/auth/code`, `${process.env.NEXT_PUBLIC_API_URL}/auth/password`, `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`]} childProp={<Header />}></Path>
+    <html
+      className="!overflow-y-scroll max-w-[440px] mx-auto border-solid border-l-[1px] border-r-[1px] border-default-400 bg-[#F5F5F5]"
+      lang="fa"
+      dir="rtl"
+    >
+      <body className={`${inter.className} relative font-[vazir] `}>
+        <Path
+          excludePath={[
+            "/about",
+            // "/calculator",
+            "/auth/register",
+            "/auth/code",
+            "/auth/password",
+            "/auth/signup",
+            "/my",
+            "/my/ads",
+            "/my/trades",
+            "/my/transactions",
+            "/my/wallet/transactions",
+            "/my/wallet",
+            "/buy",
+            "/price",
+            '/my/security',
+            '/my/security/set-password',
+            '/my/security/change-password',
+            '/my/profile',
+          ]}
+          childProp={<Header />}
+        ></Path>
         {children}
-        <Path excludePath={[`${process.env.NEXT_PUBLIC_API_URL}/about`, `${process.env.NEXT_PUBLIC_API_URL}/calculator`, `${process.env.NEXT_PUBLIC_API_URL}/auth/register`, `${process.env.NEXT_PUBLIC_API_URL}/auth/code`, `${process.env.NEXT_PUBLIC_API_URL}/auth/password`, `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`]} childProp={<Footer />}></Path>
+        <Path
+          excludePath={[
+            "/about",
+            // '/calculator',
+            "/auth/register",
+            "/auth/code",
+            "/auth/password",
+            "/auth/signup",
+            "/buy",
+            "/my/ads",
+            "/my/trades",
+            "/my/transactions",
+            "/my/wallet",
+            "/my/wallet/transactions",
+            '/my/security',
+            '/my/security/set-password',
+            '/my/security/change-password',
+            '/my/profile',
+          ]}
+          childProp={<Footer />}
+        ></Path>
       </body>
     </html>
   );

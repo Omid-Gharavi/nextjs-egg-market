@@ -1,30 +1,45 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import SvgTemp from '../svg/SvgTemp'
+import SvgPrice from '../svg/SvgPrice'
+import SvgCalc from '../svg/SvgCalc'
+import SvgProfile from '../svg/SvgProfile'
 
 export const lists = [
     {
         text: 'آگهی ها',
-        href: '/'
+        href: '/',
+        icon: <SvgTemp />,
+        activeIcon: <SvgTemp active={true} />,
     },
     {
         text: 'قیمت روز',
-        href: '/price'
+        href: '/price',
+        icon: <SvgPrice />,
+        activeIcon: <SvgPrice active={true} />
+
     },
     {
         text: 'ماشین حساب',
-        href: '/calculator'
+        href: '/calculator',
+        icon: <SvgCalc />,
+        activeIcon: <SvgCalc active={true} />
+
     },
     {
         text: 'پروفایل',
-        href: '/auth/register'
+        // href: '/auth/register',
+        href: '/my',
+        icon: <SvgProfile />,
+        activeIcon: <SvgProfile active={true} />
     },
 ]
 
 const Nav = () => {
     const path = usePathname()
     return (
-        <ul className='flex gap-7 text-default-50'>
+        <ul className='flex gap-7 text-default-100'>
             {
                 lists.map((list, index) => (
                     <Link

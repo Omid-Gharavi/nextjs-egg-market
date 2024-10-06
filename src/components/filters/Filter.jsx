@@ -26,7 +26,7 @@ const Filter = () => {
     return (
         <div className='mt-3 mb-[10px] w-full items-center max-md:grid grid-cols-[32px_1fr] hidden pr-3 gap-1'>
             <div href={'#'} className='flex justify-center items-center w-[32px] h-[32px] rounded-lg bg-tertiary'>
-                <span className='icon-Filter-5'></span>
+                <span className='icon-Filter-5 invert-0'></span>
             </div>
             <div className='overflow-x-auto grid auto-cols-max grid-flow-col gap-[3px] overscroll-contain items-center'>
                 {

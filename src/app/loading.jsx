@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-const loading = () => {
-    return (
-        <div className='min-h-screen flex justify-center items-center text-6xl'>loading...</div>
-    )
+export default function Loading() {
+  return (
+    <div className="min-h-screen flex justify-center items-center bg-transparent">
+      <div className="loading loading-spinner loading-lg"></div>
+    </div>
+  );
 }
-
-export default loading

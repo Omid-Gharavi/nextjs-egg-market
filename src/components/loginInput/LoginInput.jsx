@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, className, disabled, inputClassName }) => {
+const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, className, disabled, inputClassName, id }) => {
     const [type, setType] = useState(false)
     const [caretPosition, setCaretPosition] = useState(0);
     const [blur, setBlur] = useState(false);
@@ -10,13 +10,14 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
     return (
         <div className={`relative ${className}`}>
             <input
+                id={id}
                 disabled={disabled}
                 ref={inputRef}
                 value={inputValue}
                 onClick={(e) => setCaretPosition(e.target.selectionStart)}
                 onBlur={() => setBlur(true)}
                 onChange={(e) => {
-                    setInputValue(e.target.value)
+                    setInputValue(e.target.value.replace(/ /, ''))
                     setCaretPosition(e.target.selectionStart)
                     onChange && onChange()
                 }}
@@ -40,7 +41,7 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
                     }
                 }}
                 dir="ltr"
-                className={`${inputClassName} w-full h-12 px-4 rounded-lg border-solid border-[1px] ${inputValue === '' ? 'border-default-100' : 'border-tertiary'} ${type ? '' : 'text-xl'}`}
+                className={`${inputClassName} font-['vazir'] w-full h-12 pl-4 pr-14 rounded-lg border-solid border-[1px] ${inputValue === '' ? 'border-default-300' : 'border-tertiary'} ${type ? '' : 'text-xl'}`}
                 type={!type ? 'password' : 'text'}
             />
             <span
@@ -50,7 +51,6 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
                         const currentPosition = inputRef.current.selectionStart;
                         setTimeout(() => {
                             setCaretPosition(currentPosition);
-                            // inputRef.current.focus();
                             inputRef.current.selectionStart = currentPosition;
                             inputRef.current.selectionEnd = currentPosition;
                         }, 0);
@@ -66,7 +66,7 @@ const LoginInput = ({ onChange, onKeyDown, inputValue, setInputValue, inputRef, 
                         e.preventDefault();
                     }
                 }}
-                className={`cursor-pointer absolute top-[50%] translate-y-[-50%] right-4 text-2xl ${inputValue === '' ? 'icon-Show' : type ? 'icon-Hide' : 'icon-Show-fill'}`}></span>
+                className={`cursor-pointer absolute top-[50%] translate-y-[-50%] right-4 text-2xl ${inputValue === '' ? 'icon-light-linear-Show-empty' : type ? 'icon-light-outline-Hide' : 'icon-light-linear-Show'}`}></span>
         </div>
     )
 }
