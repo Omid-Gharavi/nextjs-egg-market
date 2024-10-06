@@ -18,13 +18,15 @@ export default function SetPasswordPage() {
     const english = z.string().regex(/[a-zA-Z]/);
     const number = z.string().regex(/[0-9]/);
 
-    if (sessionStorage?.getItem('current-password')) {
-        router.push('/my/security/change-password')
-    }
+    useEffect(() => {
+        if (sessionStorage?.getItem('current-password')) {
+            router.push('/my/security/change-password')
+        }
 
-    if (sessionStorage?.getItem('current-password')) {
-        return null
-    }
+        if (sessionStorage?.getItem('current-password')) {
+            return null
+        }
+    }, [])
 
     return (
         <>
