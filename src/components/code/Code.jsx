@@ -7,13 +7,13 @@ import Link from "next/link";
 import { ToggleShow } from "@/app/my/profile/layout";
 import { useProfile } from "@/store/profileState";
 
-const Code = ({ phone, modal = false, dialogPhone }) => {
+const Code = ({ phone, modal = false, dialogPhone, toggle }) => {
   const [inputValue, setInputValue] = useState(["", "", "", ""]);
   const [error, setError] = useState(false);
   const [time, setTime] = useState({ min: 2, sec: 0 });
   const inputRefs = useRef([]);
   const router = useRouter();
-  const [toggle] = useContext(ToggleShow)
+  // const [toggle = ''] = useContext(ToggleShow)
   // const [toggle] = modal ? useContext(ToggleShow) : [null]
   const addProfile = useProfile(state => state.addProfile)
 

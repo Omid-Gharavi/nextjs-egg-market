@@ -10,7 +10,6 @@ import { ToggleShow } from "../layout";
 export default function CodePage() {
     const [phone, setPhone] = useState('')
     const [toggle, onClick, dialogPhone] = useContext(ToggleShow)
-
     useEffect(() => {
         const phoneStored = sessionStorage.getItem('phone')
         if (!phoneStored) {
@@ -37,7 +36,7 @@ export default function CodePage() {
                 </div>
             </div>
             <div className="mt-4">
-                <Code dialogPhone={dialogPhone} phone={phone} modal={true} />
+                <Code dialogPhone={dialogPhone} phone={phone} modal={true} toggle={toggle} />
             </div>
         </>
     )
