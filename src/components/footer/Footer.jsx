@@ -63,7 +63,7 @@ const Footer = () => {
           } else {
             // const storedToken = localStorage.getItem("token");
             // setToken(storedToken);
-            // getData();
+            getData();
             document.getElementById(`adModal`).showModal();
           }
         }}

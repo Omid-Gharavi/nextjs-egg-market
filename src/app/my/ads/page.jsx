@@ -34,16 +34,7 @@ export default function Page() {
     )}/${loadDate[2].replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))}`;
     return loadDate;
   };
-  const listenToScroll = () => {
-    let heightToHideFrom = 40;
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    if (winScroll > heightToHideFrom) {
-      isVisible && setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-  };
+
   const getData = async () => {
     try {
       const res = await axios.get(
@@ -139,35 +130,33 @@ export default function Page() {
       setFiltereData(data);
     }
   };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", listenToScroll);
-  //   return () => window.removeEventListener("scroll", listenToScroll);
-  // }, []);
+  const listenToScroll = () => {
+    let heightToHideFrom = 10;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    if (winScroll > heightToHideFrom) {
+      isVisible && setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  };
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);
     return () => window.removeEventListener("scroll", listenToScroll);
-  }, [listenToScroll]);
+  }, []);
 
-  // useEffect(() => {
-  //   getData();
-  //   getProvinces();
-  // }, []);
   useEffect(() => {
     getData();
     getProvinces();
-  }, [getData]);
+  }, []);
 
-  // useEffect(() => {
-  //   dateHandler(data);
-  // }, [dateFrom, dateTo]);
   useEffect(() => {
     dateHandler(data);
-  }, [dateFrom, dateTo, dateHandler]);
+  }, [dateFrom, dateTo]);
 
   return (
     <>
-      <div className="sticky top-0 bg-surface-secondary flex justify-between items-center mb-2 py-6 px-6">
+      <div className="sticky top-0 bg-surface-secondary flex justify-between items-center mb-2 p-6 z-10">
         <div className="flex gap-4 justify-start items-center">
           <button
             className="icon-light-bold-Right-1 text-2xl"
@@ -189,42 +178,40 @@ export default function Page() {
           </button>
         )}
       </div>
-      <div className="pb-8">
-        <div
-          className={`px-6 bg-inherit dateFilter ${isVisible ? "" : "hide"}`}
-        >
-          <p className="text-sm text-default-500 mb-2">تاریخ</p>
-          <div className="flex gap-4">
-            <button
-              className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
-              onClick={() =>
-                document.getElementById("dateFromModal").showModal()
-              }
-            >
-              <span className="text-sm text-default-500">از:</span>
-              <p className="font-medium text-default-900">
-                {dateFrom
-                  ? `${dateFrom.year}/${monthNames.indexOf(dateFrom.month) + 1
-                  }/${dateFrom.day}`
-                  : ""}
-              </p>
-              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
-            </button>
-            <button
-              className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
-              onClick={() => document.getElementById("dateToModal").showModal()}
-            >
-              <span className="text-sm text-default-500">تا:</span>
-              <p className="font-medium text-default-900">
-                {dateTo
-                  ? `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${dateTo.day
+      <div className={`px-6 dateFilter relative ${isVisible ? "" : "hide"}`}>
+        <p className="text-sm text-default-500 mb-2">تاریخ</p>
+        <div className="flex gap-4">
+          <button
+            className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
+            onClick={() => document.getElementById("dateFromModal").showModal()}
+          >
+            <span className="text-sm text-default-500">از:</span>
+            <p className="font-medium text-default-900">
+              {dateFrom
+                ? `${dateFrom.year}/${monthNames.indexOf(dateFrom.month) + 1}/${
+                    dateFrom.day
                   }`
-                  : ""}
-              </p>
-              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
-            </button>
-          </div>
+                : ""}
+            </p>
+            <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+          </button>
+          <button
+            className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
+            onClick={() => document.getElementById("dateToModal").showModal()}
+          >
+            <span className="text-sm text-default-500">تا:</span>
+            <p className="font-medium text-default-900">
+              {dateTo
+                ? `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${
+                    dateTo.day
+                  }`
+                : ""}
+            </p>
+            <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+          </button>
         </div>
+      </div>
+      <div className="pb-8 bg-surface-secondary">
         {isLoading ? (
           <Loading />
         ) : filterdData?.length === 0 ? (

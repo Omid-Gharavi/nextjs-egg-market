@@ -56,7 +56,7 @@ export default function RegisterPage() {
         className={`placeholder:text-right mt-8 w-full py-3 px-4 rounded-lg border-solid border-[1px] ${error ? "border-danger" : "border-default-100"
           } ${inputRef.current && inputRef.current.value !== "" && "border-tertiary"
           }`}
-        type="text"
+        type="tel"
         placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
         value={inputValue}
         ref={inputRef}

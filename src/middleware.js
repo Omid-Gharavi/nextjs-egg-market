@@ -9,10 +9,10 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL('/auth/register', request.url));
     }
 
-    const pathname = request.nextUrl.pathname
-    const response = NextResponse.next()
-    response.headers.set('x-pathname', pathname)
-    return response
+    // const pathname = request.nextUrl.pathname
+    // const response = NextResponse.next()
+    // response.headers.set('x-pathname', pathname)
+    // return response
     // return NextResponse.next();
 }
 

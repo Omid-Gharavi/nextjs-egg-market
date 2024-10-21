@@ -10,11 +10,10 @@ import OriginFilter from "../filterItems/OriginFilter";
 import Pack from "../filterItems/Pack";
 
 const filterOptions = [
-  // {
-  //   id: 0,
-  //   title: "فقط بار های موجود",
-  //   value: "available",
-  // },
+  {
+    title: "فقط بار های موجود",
+    value: "available",
+  },
   // {
   //   id: 2,
   //   title: "وزن",
@@ -58,6 +57,8 @@ export default function FilterLayout({
   filterValues,
   setFilterValues,
   provinces,
+  setIsAvailable,
+  isAvailable,
 }) {
   const [filters, setFilters] = useState(filterValues);
   const filterHandler = (name, value, type) => {
@@ -95,10 +96,14 @@ export default function FilterLayout({
           setFilterValues={setFilterValues}
           filterValues={filterValues}
           provinces={provinces}
+          setIsAvailable={setIsAvailable}
+          isAvailable={isAvailable}
         />
       </FullModal>
       <div className="carousel gap-1">
         <IndividualFilters
+          setIsAvailable={setIsAvailable}
+          isAvailable={isAvailable}
           filterOptions={filterOptions}
           filters={filters}
           setFilters={setFilters}

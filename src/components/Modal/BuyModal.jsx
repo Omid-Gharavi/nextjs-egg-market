@@ -3,9 +3,11 @@
 import React from "react";
 import Button from "../UI/Button";
 import { useRouter } from "next/navigation";
+import { useProductDetail } from "@/store/productDetail";
 
 const BuyModal = ({ load, setSelected }) => {
   const router = useRouter();
+  const product = useProductDetail(state => state.product)
 
   const weight =
     load.details?.find((item) => item.title === "وزن کارتن")?.value || "";
@@ -15,32 +17,38 @@ const BuyModal = ({ load, setSelected }) => {
     load.details?.find((item) => item.title === "قیمت")?.value || "";
   const lists = [
     {
-      name: "برند",
-      text: "چکاوک",
+      name: "کد رهگیری",
+      text: "--",
     },
     {
-      name: "محل بارگیری",
-      text: "کاشان",
-      second: "(اصفهان)",
+      name: "شماره بارنامه",
+      text: "--",
+    },
+    {
+      name: "شماره ماشین",
+      text: '--',
+    },
+    {
+      name: "شماره تماس راننده",
+      text: '--',
+    },
+    {
+      name: "شماره فاکتور",
+      text: '۱۴۰۳۰۷۱۴۰۰۴-۱',
     },
     {
       name: "مقصد",
-      text: load.origin_field2,
-      second: `(${load.origin_field2})`,
-    },
-    {
-      name: "وزن بار",
-      text: weight,
-      second: "کیلوگرم",
-    },
-    {
-      name: "تعداد کارتن",
-      text: quantity,
-      second: "کارتن",
+      text: 'تهران',
+      second: "(تهران)",
     },
     {
       name: "فی بار",
-      text: price,
+      text: '۴۹,۵۰۰',
+      second: "تومان",
+    },
+    {
+      name: "مبلغ کل",
+      text: '۲۵۷,۵۰۰,۰۰۰',
       second: "تومان",
     },
   ];
@@ -49,6 +57,11 @@ const BuyModal = ({ load, setSelected }) => {
     <div className="overflow-y-scroll">
       <div className="mt-2">
         <ul className="flex flex-col gap-2">
+          <div className="px-6 py-[6px]">
+            {
+              <p className="font-medium">{`${product.city} | ${product.weight}`}<span className="text-xs text-default-500"> کیلو</span> | {product.quantity}<span className="text-xs text-default-500"> کارتن</span> | {product.city} <span className="text-xs text-default-500">({product.city})</span></p>
+            }
+          </div>
           {lists.map((list, index) => (
             <li
               key={index + 1}
@@ -86,19 +99,19 @@ const BuyModal = ({ load, setSelected }) => {
           کم و زیاد شدن ۱۰۰ گرمی وزن بار، طبق عرف بازار پذیرفته شده است.
         </li>
       </ul>
-      <div className="flex flex-col items-center justify-center gap-4 mt-5 px-6 pb-4">
-        <Button text={"پرداخت آنلاین"} type={"bg-primary w-full"} />
+      <div className="grid grid-cols-2 items-center justify-center gap-4 mt-5 px-6 pb-4">
+        <Button text={"پرداخت آنلاین"} type={"bg-success text-default-50 font-normal"} />
         <Button
           text={"پرداخت از کیف پول"}
           type={
-            "w-full text-tertiary border-solid border-[2px] border-tertiary"
+            "text-success border-solid border-[2px] border-success"
           }
           onClick={() => router.push("/buy")}
         />
-        <form method="dialog" className="w-full">
+        <form method="dialog" className="w-full col-span-2">
           <Button
             text={"لغو"}
-            type={"w-full text-tertiary"}
+            type={"w-full text-danger-900"}
             onClick={() => {
               setSelected("");
               document.getElementById("modal_buy").close();

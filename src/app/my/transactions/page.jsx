@@ -13,12 +13,12 @@ export default function Page() {
     dateTo: "",
     priceFrom: "",
     priceTo: "",
-    filter: 1,
+    filter: [1],
   });
 
   return (
     <>
-      <div className="bg-default-50 min-h-screen">
+      <div className="bg-default-50">
         <div className="sticky top-0 bg-inherit flex justify-between items-center mb-2 py-6 px-6">
           <div className="flex gap-4 justify-start items-center">
             <button

@@ -15,11 +15,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      className="!overflow-y-scroll max-w-[440px] mx-auto border-solid border-l-[1px] border-r-[1px] border-default-400 bg-[#F5F5F5]"
+      className="max-w-[440px] mx-auto border-solid border-l-[1px] border-r-[1px] border-default-400 bg-[#F5F5F5]"
       lang="fa"
       dir="rtl"
     >
-      <body className={`${inter.className} relative font-[vazir] `}>
+      <body
+        className={`${inter.className} relative font-[vazir] overflow-x-hidden`}
+      >
         <Path
           excludePath={[
             "/about",
@@ -36,9 +38,13 @@ export default function RootLayout({ children }) {
             "/my/wallet",
             "/buy",
             "/price",
-            '/my/security',
-            '/my/security/set-password',
-            '/my/security/change-password',
+            "/my/security",
+            "/my/security/set-password",
+            "/my/security/change-password",
+            "/calculator",
+            "/my/priceSuggestion",
+            "/my/messages",
+            "/my/messages/",
             '/my/profile',
           ]}
           childProp={<Header />}
@@ -58,9 +64,12 @@ export default function RootLayout({ children }) {
             "/my/transactions",
             "/my/wallet",
             "/my/wallet/transactions",
-            '/my/security',
-            '/my/security/set-password',
-            '/my/security/change-password',
+            "/my/security",
+            "/my/security/set-password",
+            "/my/security/change-password",
+            "/my/priceSuggestion",
+            "/my/messages",
+            "/my/messages/",
             '/my/profile',
           ]}
           childProp={<Footer />}

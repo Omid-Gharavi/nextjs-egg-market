@@ -2,12 +2,28 @@
 import React, { useEffect, useState } from "react";
 import Button from "../UI/Button";
 import Badge from "../UI/Badge";
+import moment from "jalali-moment";
+import { priceWithDot } from "@/utils/priceWithDot";
+import { useProductDetail } from "@/store/productDetail";
 
 export default function SaleCard({ load, province, setSelected }) {
   const [detail, setDetail] = useState({});
+  const addProduct = useProductDetail(state => state.addProduct)
 
-  const { description, details, origin_field2, reg_date, status } = load;
-  const d = new Date(reg_date);
+  const {
+    description,
+    details,
+    origin_field2,
+    reg_date,
+    reg_just_date,
+    status,
+  } = load;
+
+  const today = moment().locale("fa");
+  const date = moment(reg_just_date, "YYYY-M-D").locale("fa");
+  const time = moment(reg_date, "YYYY-MM-DD HH:mm:ss").locale("fa");
+
+  const hourDiffer = today.hour() - time.hour();
 
   useEffect(() => {
     setDetail({
@@ -19,6 +35,7 @@ export default function SaleCard({ load, province, setSelected }) {
       pack: details.find((item) => item.title === "نوع بسته بندی")?.value || "",
       price: details.find((item) => item.title === "قیمت")?.value || "",
       weight: details.find((item) => item.title === "وزن کارتن")?.value || "",
+      city: province?.title
     });
   }, [load]);
 
@@ -36,11 +53,15 @@ export default function SaleCard({ load, province, setSelected }) {
           </p>
         </div>
         <p className="text-default-500 text-xs">
-          {new Intl.DateTimeFormat("fa-IR").format(d)}
+          {date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")
+            ? hourDiffer < 1
+              ? "کمتر از 1 ساعت پیش"
+              : `${hourDiffer} ساعت پیش`
+            : date.format("YYYY/MM/DD")}
         </p>
       </div>
       <div className="px-6 py-4">
-        <div className="flex  gap-1 items-center">
+        <div className="flex gap-1 items-center">
           <span className="flex items-center">
             <span className="text-xl font-semibold text-default-900 ml-1">
               {detail.weight}
@@ -68,7 +89,7 @@ export default function SaleCard({ load, province, setSelected }) {
           {detail.yolk && <Badge text={detail.yolk} />}
           {detail.print && <Badge text={detail.print} />}
         </div>
-        <p className="text-xs text-default-900">{description}</p>
+        <p className="text-xs text-default-900 limitText">{description}</p>
       </div>
       <div
         className={`text-center flex items-center justify-center gap-1 border-t border-t-default-200 pt-2 ${detail.price && detail.price !== "توافقی"
@@ -77,7 +98,9 @@ export default function SaleCard({ load, province, setSelected }) {
           }`}
       >
         <span className="font-semibold text-2xl text-default-900">
-          {detail.price && detail.price !== "توافقی" ? detail.price : "توافقی"}
+          {detail.price && detail.price !== "توافقی"
+            ? priceWithDot(detail.price)
+            : "توافقی"}
         </span>
         <span className="text-default-500 text-xs">
           {detail.price && detail.price !== "توافقی" ? "تومان" : "قیمت"}
@@ -97,12 +120,14 @@ export default function SaleCard({ load, province, setSelected }) {
               type="button-primary"
               text="خرید"
               width="flex-1"
-              disabled={
-                detail.price && detail.price !== "توافقی" ? false : true
-              }
+              // disabled={
+              //   detail.price && detail.price !== "توافقی" ? false : true
+              // }
               onClick={() => {
                 document.getElementById("modal_buy").showModal();
                 setSelected(load.loadID);
+                // const all = detail
+                addProduct(detail)
               }}
             />
             <Button

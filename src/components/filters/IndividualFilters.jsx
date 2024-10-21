@@ -11,54 +11,59 @@ export default function IndividualFilters({
   setFilterValues,
   filterValues,
   provinces,
+  isAvailable,
+  setIsAvailable,
 }) {
   const [selectedFilter, setSelectedFilter] = useState([]);
   return (
     <>
-      {filterOptions.map((filter) => (
+      {filterOptions.map((filter, index) => (
         <>
-          {/* {index === 0 ? (
+          {index === 0 ? (
             <button
               className={`carousel-item text-default-700 text-sm p-3 py-1 rounded-3xl ${
-                filterValues.available
+                isAvailable
                   ? "bg-purple-200"
                   : "bg-white border border-default-400"
               }`}
-              onClick={() => {
-                setFilters((prev) => ({
-                  ...prev,
-                  available: !filters.available,
-                }));
-                setFilterValues((prev) => ({
-                  ...prev,
-                  available: !filterValues.available,
-                }));
-              }}
+              onClick={setIsAvailable}
+              // onClick={() => {
+              //   setFilters((prev) => ({
+              //     ...prev,
+              //     available: !filters.available,
+              //   }));
+              //   setFilterValues((prev) => ({
+              //     ...prev,
+              //     available: !filterValues.available,
+              //   }));
+              // }}
             >
               فقط بارهای موجود
             </button>
           ) : (
-            <> */}
-          <button
-            className={`flex items-center gap-1 carousel-item text-default-700 text-sm p-3 py-1 rounded-3xl ${
-              // index === 2
-              //   ? filterValues.weight.min !== 8 ||
-              //     filterValues.weight.max !== 14
-              //     ? "bg-purple-200"
-              //     : "bg-white border border-default-400"
-              //   :
-              filterValues[filter.value].length > 0
-                ? "bg-purple-200"
-                : "bg-white border border-default-400"
-            }`}
-            onClick={() => {
-              document.getElementById(`filterModal`).showModal();
-              setSelectedFilter(filter);
-            }}
-          >
-            <p>{filter.title}</p>
-            <span className="icon-light-linear-Down-2 text-base text-default-700"></span>
-          </button>
+            <>
+              <button
+                className={`flex items-center gap-1 carousel-item text-default-700 text-sm p-3 py-1 rounded-3xl ${
+                  // index === 2
+                  //   ? filterValues.weight.min !== 8 ||
+                  //     filterValues.weight.max !== 14
+                  //     ? "bg-purple-200"
+                  //     : "bg-white border border-default-400"
+                  //   :
+                  filterValues[filter.value].length > 0
+                    ? "bg-purple-200"
+                    : "bg-white border border-default-400"
+                }`}
+                onClick={() => {
+                  document.getElementById(`filterModal`).showModal();
+                  setSelectedFilter(filter);
+                }}
+              >
+                <p>{filter.title}</p>
+                <span className="icon-light-linear-Down-2 text-base text-default-700"></span>
+              </button>
+            </>
+          )}
         </>
       ))}
       <BottomModal

@@ -1,12 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Badge from "../UI/Badge";
+import moment from "jalali-moment";
 
 export default function MyAdCard({ card, provinces, setSelected }) {
   const [detail, setDetail] = useState({});
-  const { description, details, origin_field2, reg_date, status } = card;
+  const {
+    description,
+    details,
+    origin_field2,
+    reg_date,
+    status,
+  } = card;
 
-  const d = new Date(reg_date);
+  const today = moment().locale("fa");
+  let date = moment(reg_date, "YYYY-MM-DD HH:mm:ss")
+    .locale("fa")
+    .format("YYYY-MM-DD");
+  let time = moment(reg_date, "YYYY-MM-DD HH:mm:ss").locale("fa").hour();
+
+  const hourDiffer = today.hour() - time;
 
   useEffect(() => {
     setDetail({
@@ -45,7 +58,11 @@ export default function MyAdCard({ card, provinces, setSelected }) {
           </div>
         )}
         <p className="text-default-500 text-xs">
-          {new Intl.DateTimeFormat("fa-IR").format(d)}
+          {date === today.format("YYYY-MM-DD")
+            ? hourDiffer < 1
+              ? "کمتر از 1 ساعت پیش"
+              : `${hourDiffer} ساعت پیش`
+            : date}
         </p>
       </div>
       <div className="px-6 py-4">
@@ -79,7 +96,7 @@ export default function MyAdCard({ card, provinces, setSelected }) {
           {detail.yolk && <Badge text={detail.yolk} />}
           {detail.print && <Badge text={detail.print} />}
         </div>
-        <p className="text-xs text-default-900">{description}</p>
+        <p className="text-xs text-default-900 limitText">{description}</p>
       </div>
       <div
         className={`text-center flex items-center justify-center gap-1 pt-2 ${

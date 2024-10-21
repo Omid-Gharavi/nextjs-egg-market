@@ -10,10 +10,9 @@ import { useForm } from "react-hook-form";
 import InputText from "../UI/InputText";
 import InputSelect from "../UI/InputSelect";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 export default function EditAdForm({ card, provinces, setSelected, getData }) {
-  const { refresh } = useRouter();
+  const [profile, setProfile] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isDescOpen, setIsDescOpen] = useState(
     card.description === "" ? false : true
@@ -40,9 +39,9 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
     },
   });
 
-  const weight = register("weight", { required: true });
-  const count = register("count", { required: true });
-  const price = register("price", { required: false });
+  const weight = register("weight", { required: true, pattern: /^[0-9]+$/ });
+  const count = register("count", { required: true, pattern: /^[0-9]+$/ });
+  const price = register("price", { required: false, pattern: /^[0-9]+$/ });
   const description = register("description", { required: false });
 
   const onSubmit = (data) => {
@@ -67,9 +66,9 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
             quality: data.quality,
             price: data.price,
             description: data.description,
-            person_owner_name: "محمد رضا محمدی تست",
-            owner_name: "تست",
-            phones: ["12", ""],
+            person_owner_name: profile.person_owner_name,
+            owner_name: profile.owner_name,
+            phones: [null],
           },
           {
             headers: {
@@ -93,6 +92,28 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
     postData();
   };
 
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/profile`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = await res.json();
+        setProfile(data.profile);
+      } catch (err) {
+        console.error("data failed:", err);
+      }
+    };
+    getProfile();
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <ScrollBar>
@@ -106,6 +127,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
             required={true}
             placeholder="مثلا 12.5"
             space="col-span-1"
+            type="number"
           />
           <InputText
             name={count.name}
@@ -116,6 +138,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
             required={true}
             placeholder="مثلا 360"
             space="col-span-1"
+            type="number"
           />
           <InputSelect
             name="pack_type"
@@ -172,6 +195,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
             smallText="(تومان)"
             required={false}
             space="col-span-2"
+            type="number"
           />
           {isDescOpen ? (
             <InputText
@@ -181,6 +205,7 @@ export default function EditAdForm({ card, provinces, setSelected, getData }) {
               label="توضیحات"
               required={false}
               space="col-span-2"
+              type="text"
             />
           ) : (
             <button

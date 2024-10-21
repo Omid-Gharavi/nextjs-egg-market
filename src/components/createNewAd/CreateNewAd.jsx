@@ -52,9 +52,9 @@ export default function CreateNewAd({ profile }) {
     getProvinces();
   }, []);
 
-  const weight = register("weight", { required: true });
-  const count = register("count", { required: true });
-  const price = register("price", { required: false });
+  const weight = register("weight", { required: true, pattern: /^[0-9]+$/ });
+  const count = register("count", { required: true, pattern: /^[0-9]+$/ });
+  const price = register("price", { required: false, pattern: /^[0-9]+$/ });
   const description = register("description", { required: false });
 
   const onSubmit = (data) => {
@@ -78,8 +78,8 @@ export default function CreateNewAd({ profile }) {
             quality: data.quality,
             price: data.price, // string
             description: data.description, // string
-            person_owner_name: "محمد رضا محمدی تست", // string
-            owner_name: "تست", // string
+            person_owner_name: profile.person_owner_name, // string
+            owner_name: profile.owner_name, // string
             phones: [null],
           },
           {
@@ -118,6 +118,7 @@ export default function CreateNewAd({ profile }) {
               required={true}
               placeholder="مثلا ۱۲.۵"
               space="col-span-1"
+              type="number"
             />
             <InputText
               name={count.name}
@@ -128,6 +129,7 @@ export default function CreateNewAd({ profile }) {
               required={true}
               placeholder="مثلا ۳۶۰"
               space="col-span-1"
+              type="number"
             />
             {/* <InputText
             name={brand.name}
@@ -194,6 +196,7 @@ export default function CreateNewAd({ profile }) {
               required={false}
               placeholder="مثلا ۴۵,۰۰۰"
               space="col-span-2"
+              type="number"
             />
             {isDescOpen ? (
               <InputText
@@ -204,6 +207,7 @@ export default function CreateNewAd({ profile }) {
                 required={false}
                 placeholder="توضیحات بیشتر مانند شرایط پرداخت، تعداد شکسته و..."
                 space="col-span-2"
+                type="text"
               />
             ) : (
               <button

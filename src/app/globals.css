@@ -129,6 +129,17 @@
     outline: none;
   }
 
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   .myInput {
     position: absolute;
     height: 2rem;
@@ -175,7 +186,7 @@
   }
 
   .button-primary.disabled {
-    @apply bg-orange-100 cursor-default;
+    @apply bg-orange-100 cursor-default text-default-400;
   }
 
   .button-primary.isLoading {
@@ -366,6 +377,10 @@
 
   .filterShadow {
     box-shadow: 0px 1px 2px 0px #00000026;
+  }
+
+  .tradeCardShadow {
+    box-shadow: 0px 1px 4px 0px #00000026;
   }
 
   /* Start of custom scrollbar  */
@@ -593,9 +608,9 @@
     /* max-height: 312px;
     min-height: 50px; */
     box-shadow: 0px 2px 6px 2px #00000017;
-    box-shadow: 0px 1px 2px 0px #0000001f;
-    box-shadow: 0px 2px 10px 10px #0000000f;
-    background-color: #f5f5f5;
+    /* box-shadow: 0px 1px 2px 0px #0000001f;
+    box-shadow: 0px 2px 10px 10px #0000000f; */
+    background-color: #fcfcfc;
     width: 100%;
   }
 
@@ -619,6 +634,10 @@
     -webkit-transition: background-color 0.35s ease;
     transition: background-color 0.35s ease;
     @apply text-sm text-default-700 cursor-pointer py-2 px-4;
+  }
+
+  .withdrawTab .dropdown-item {
+    text-align: left;
   }
 
   .custom--dropdown-container .dropdown-item:hover,
@@ -778,19 +797,47 @@
 
   .dateFilter {
     visibility: visible;
+    transition: all 1s;
+    height: 75px;
+  }
+
+  .tradeFilter {
+    visibility: visible;
+    transition: all 1s;
+    height: 163px;
   }
 
   .hide {
     visibility: hidden;
-    transition: all 0.1s;
+    transition: all 1s;
+    height: 0;
+    z-index: -1000;
   }
 
-  .depositInput::after {
-    content: "تومان";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #7c7c7c;
-    font-size: 14px;
+  .showTrade {
+    height: 160px;
+  }
+
+  .hideTrade {
+    height: 0px;
+    transition: all 10s;
+  }
+
+  .limitText {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .priceInput::after {
+    content: ' تومان';
+    color: red;
+  }
+
+  .searchShadow {
+    box-shadow: 0 2px 6px 2px #00000017, 0 1px 2px 0 #0000001F;
   }
 }

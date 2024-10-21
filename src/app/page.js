@@ -18,7 +18,9 @@ export default function Home() {
   const [provinces, setProvinces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loadMore, setloadMore] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(false);
   const [filterValues, setFilterValues] = useState({
     origins: [],
     print_types: [],
@@ -27,37 +29,12 @@ export default function Home() {
     pack_types: [],
   });
 
-  // useEffect(() => {
-  //   async function getLoads(lastID) {
-  //     setIsLoading(true);
-  //     await axios
-  //       .post(`${process.env.NEXT_PUBLIC_EGG_MARKET}/API/loads/loads`, {
-  //         ...filterValues,
-  //         types: [],
-  //         lastID: lastID, //برای صفحه بندی استفاده می شود. برای دریافت اطلاعات بیشتر یعنی صفحه بعد باید آخرین آیدی رو وارد کنید.
-  //       })
-  //       .then((response) => {
-  //         setIsLoading(false);
-  //         if (data.length === 0 || !loadMore) {
-  //           setData(
-  //             response.data.loads.filter((item) => item.status !== "expired")
-  //           );
-  //         } else {
-  //           let temp = data;
-  //           response.data.loads
-  //             .filter((item) => item.status !== "expired")
-  //             .map((load) => (temp = [...temp, load]));
-  //           setData(temp);
-  //           setloadMore(false);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         setIsLoading(false);
-  //         console.log(error);
-  //       });
-  //   }
-  //   getLoads(lastID);
-  // }, [lastID, filterValues, router]);
+  useEffect(() => {
+    isAvailable
+      ? setFilteredData(data.filter((item) => item.status !== "sold"))
+      : setFilteredData(data);
+  }, [isAvailable]);
+
   useEffect(() => {
     async function getLoads(lastID) {
       setIsLoading(true);
@@ -69,16 +46,20 @@ export default function Home() {
         })
         .then((response) => {
           setIsLoading(false);
-          if (data.length === 0 || !loadMore) {
+          if (filteredData.length === 0 || !loadMore) {
             setData(
               response.data.loads.filter((item) => item.status !== "expired")
             );
+            setFilteredData(
+              response.data.loads.filter((item) => item.status !== "expired")
+            );
           } else {
-            let temp = data;
+            let temp = filteredData;
             response.data.loads
               .filter((item) => item.status !== "expired")
               .map((load) => (temp = [...temp, load]));
             setData(temp);
+            setFilteredData(temp);
             setloadMore(false);
           }
         })
@@ -145,51 +126,63 @@ export default function Home() {
     <main>
       <div className="sticky top-0 h-[55px] z-10 px-2 bg-surface-secondary filterShadow">
         <FilterLayout
+          setIsAvailable={() => setIsAvailable(!isAvailable)}
+          isAvailable={isAvailable}
           filterValues={filterValues}
           setFilterValues={setFilterValues}
           provinces={provinces}
         />
       </div>
       <div className="px-4 pb-32">
-        {isLoading && data.length === 0 ? (
+        {isLoading && filteredData.length === 0 ? (
           <Loading />
-        ) : data.length === 0 ? (
+        ) : filteredData.length === 0 ? (
           <p className="text-center mt-4 text-default-500">باری وجود ندارد</p>
         ) : (
           <>
-            <div className="flex items-center justify-between text-default-500 mt-2">
-              <p className="font-bold text-sm">تعداد بارهای اعلامی:</p>
-              <p className="text-xs">{`${data.length} بار تخم مرغ`}</p>
-            </div>
             <div className="mb-4">
-              {data.map((load, index, arr) => {
+              {filteredData.map((load, index, arr) => {
                 let isEqual = false;
                 if (index !== 0) {
-                  let previous = new Date(arr[index - 1].reg_date);
+                  let previous = new Date(arr[index - 1].reg_just_date);
                   previous = new Intl.DateTimeFormat("fa-IR").format(previous);
-                  let current = new Date(load.reg_date);
+                  let current = new Date(load.reg_just_date);
                   current = new Intl.DateTimeFormat("fa-IR").format(current);
                   isEqual = current === previous;
                 }
-                let date = new Date(load.reg_date);
+                let date = new Date(load.reg_just_date);
                 date = new Intl.DateTimeFormat("fa-IR").format(date).split("/");
                 return (
                   <div key={index}>
                     {isEqual ? (
                       ""
                     ) : (
-                      <div className="flex items-center justify-center gap-4 my-2">
-                        <hr className="w-full border-default-300" />
-                        <p className="text-sm font-semibold text-default-900 basis-1 text-nowrap">
-                          {`${date[2]} ${monthNames[
-                            date[1].replace(/[۰-۹]/g, (d) =>
-                              "۰۱۲۳۴۵۶۷۸۹".indexOf(d)
-                            ) - 1
-                          ]
+                      <>
+                        <div className="flex items-center justify-center gap-4 my-2">
+                          <hr className="w-full border-default-300" />
+                          <p className="text-sm font-semibold text-default-900 basis-1 text-nowrap">
+                            {`${date[2]} ${
+                              monthNames[
+                                date[1].replace(/[۰-۹]/g, (d) =>
+                                  "۰۱۲۳۴۵۶۷۸۹".indexOf(d)
+                                ) - 1
+                              ]
                             } ${date[0]}`}
-                        </p>
-                        <hr className="w-full border-default-300" />
-                      </div>
+                          </p>
+                          <hr className="w-full border-default-300" />
+                        </div>
+                        <div className="flex items-center justify-between text-default-500 my-2">
+                          <p className="font-bold text-sm">
+                            تعداد بارهای اعلامی:
+                          </p>
+                          <p className="text-xs">{`${
+                            filteredData.filter(
+                              (item) =>
+                                item.reg_just_date === load.reg_just_date
+                            ).length
+                          } بار تخم مرغ`}</p>
+                        </div>
+                      </>
                     )}
                     <SaleCard
                       key={load.loadId}
@@ -208,7 +201,7 @@ export default function Home() {
               text="مشاهده آگهی های بیشتر"
               width="w-full"
               onClick={() => {
-                setLastID(data[data.length - 1].loadID);
+                setLastID(filteredData[filteredData.length - 1].loadID);
                 setloadMore(true);
               }}
               loading={isLoading}
@@ -225,7 +218,7 @@ export default function Home() {
               </form>
               {selected && (
                 <BuyModal
-                  load={data.find((item) => item.loadID === selected)}
+                  load={filteredData.find((item) => item.loadID === selected)}
                   setSelected={setSelected}
                 />
               )}

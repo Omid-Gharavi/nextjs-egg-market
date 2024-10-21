@@ -1,12 +1,24 @@
 'use client'
 
 import Button from "@/components/UI/Button"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
+import border from '@/image/border.svg'
+import { useReceipt } from "@/store/productDetail"
+import { useRef } from "react"
+import html2canvas from "html2canvas-pro"
 
 export default function Page() {
+    const captureRef = useRef()
     const router = useRouter()
+    const addReceipt = useReceipt(state => state.addReceipt)
+    const removeAllReceipt = useReceipt(state => state.removeAllReceipt)
 
     const lists = [
+        {
+            name: 'شماره فاکتور',
+            text: '۱۴۰۳۰۷۱۴۰۰۴-۱'
+        },
         {
             name: 'شماره پیگیری',
             text: '۱۲۳۴۵۶۷۸۹۰'
@@ -29,8 +41,9 @@ export default function Page() {
 
     return (
         <div className="min-h-screen flex flex-col justify-center gap-7 px-6">
-            <div className="relative overflow-hidden bg-default-50 border-solid border-[2px] border-default-200 w-full rounded-2xl">
+            <div ref={captureRef} className="relative bg-[#F7F7F7] w-full rounded-tl-2xl rounded-tr-2xl border-solid border-t border-x border-[#C2C2C2]">
                 <span className="icon-Share absolute top-4 right-4 text-xl text-default-500 cursor-pointer"></span>
+                <Image className="absolute top-[100%] inset-x-0 w-full" src={border} alt="style" />
                 <div className="mt-6 flex flex-col gap-6 justify-center items-center">
                     <div className="flex justify-center items-center rounded-full w-[85px] h-[85px] bg-success">
                         <span className="icon-light-linear-Tick-success text-6xl"></span>
@@ -51,11 +64,31 @@ export default function Page() {
                     }
                 </ul>
             </div>
-            <Button
-                text={'بازگشت به آگهی‌ها'}
-                type={'w-full text-tertiary border-solid border-[2px] border-tertiary'}
-                onClick={() => router.push('/')}
-            />
+            <div className="grid grid-cols-2 gap-3">
+                <Button
+                    text={'ذخیره'}
+                    type={'w-full text-tertiary border-solid border-[2px] border-tertiary'}
+                    onClick={() => {
+                        addReceipt(lists)
+                        const element = captureRef.current
+                        html2canvas(element, {
+                            useCORS: true,
+                            allowTaint: false
+                        }).then(canvas => {
+                            const link = document.createElement('a')
+                            link.href = canvas.toDataURL('image/png')
+                            link.download = 'screenshot.png'
+                            link.click()
+                        })
+                        // removeAllReceipt()
+                    }}
+                />
+                <Button
+                    text={'بازگشت به آگهی‌ها'}
+                    type={'w-full text-tertiary border-solid border-[2px] border-tertiary'}
+                    onClick={() => router.push('/')}
+                />
+            </div>
         </div>
     )
 }

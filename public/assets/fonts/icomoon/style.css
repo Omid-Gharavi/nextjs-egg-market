@@ -91,6 +91,7 @@
 
 .icon-Chart:before {
   content: "\e903";
+  color: #342277;
 }
 
 .icon-icon---Loading:before {
@@ -112,7 +113,6 @@
 
 .icon-icon---Terms-of-use-3:before {
   content: "\e908";
-  color: #342277;
 }
 
 .icon-icon-ads:before {
@@ -170,7 +170,6 @@
 
 .icon-icon-price:before {
   content: "\e914";
-  color: #fcfcfc;
 }
 
 .icon-icon-profile:before {
@@ -536,6 +535,11 @@
   color: #2d264b;
 }
 
+.icon-light-linear-Delete-2-custom:before {
+  content: "\e942";
+  color: #969696;
+}
+
 .icon-light-linear-Discount-Circle:before {
   content: "\e943";
 }
@@ -874,7 +878,6 @@
 
 .icon-light-linear-Document-Justify-Right-1:before {
   content: "\e987";
-  color: #2d264b;
 }
 
 .icon-light-linear-Document-Justify-Center-1:before {
@@ -2744,6 +2747,11 @@
 .icon-light-outline-Delete-2:before {
   content: "\e942";
   color: #2d264b;
+}
+
+.icon-light-outline-Delete-2-custom:before {
+  content: "\e942";
+  color: #969696;
 }
 
 .icon-light-outline-Discount-Circle:before {

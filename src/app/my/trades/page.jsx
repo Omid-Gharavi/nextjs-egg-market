@@ -26,7 +26,27 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [dateFrom, setDateFrom] = useState(null);
   const [dateTo, setDateTo] = useState(null);
-  const [selected, setSelected] = useState(items);
+  const [selected, setSelected] = useState({
+    0: false,
+    1: false,
+  });
+  const [activeTab, setActiveTab] = useState(1);
+  const [isVisible, setIsVisible] = useState(true);
+
+  const listenToScroll = () => {
+    let heightToHideFrom = 70;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    if (winScroll > heightToHideFrom) {
+      isVisible && setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", listenToScroll);
+    return () => window.removeEventListener("scroll", listenToScroll);
+  }, []);
 
   useEffect(() => {
     async function getLoads() {
@@ -65,16 +85,15 @@ export default function Page() {
   }, []);
 
   const checkHandler = (e, data) => {
-    if (e.target.checked) {
-      setSelected([...selected, data]);
-    } else {
-      setSelected(selected.filter((item) => item.id !== data.id));
-    }
+    setSelected((prev) => ({
+      ...prev,
+      [data.id]: e.target.checked,
+    }));
   };
 
   return (
-    <div className="bg-surface-secondary">
-      <div className="sticky top-0 bg-inherit flex justify-between items-center mb-2 py-6 px-6">
+    <>
+      <div className="sticky top-0 bg-surface-secondary flex justify-between items-center p-6 z-10">
         <div className="flex gap-4 justify-start items-center">
           <button
             className="icon-light-bold-Right-1 text-2xl"
@@ -82,79 +101,129 @@ export default function Page() {
           ></button>
           <h3 className="font-semibold text-xl text-default-900">معاملات من</h3>
         </div>
-        {(dateFrom || dateTo || selected.length < 2) && (
+        {(dateFrom || dateTo || selected[0] || selected[1]) && (
           <button
             className="text-sm text-danger-900"
             onClick={() => {
               setDateFrom(null);
               setDateTo(null);
-              setSelected(items);
+              setSelected({
+                0: false,
+                1: false,
+              });
             }}
           >
             حذف همۀ فیلترها
           </button>
         )}
       </div>
-      <div className="pb-8">
-        <div className="px-6">
-          <p className="text-sm text-default-500 mb-2">تاریخ</p>
-          <div className="flex gap-4">
-            <button
-              className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
-              onClick={() =>
-                document.getElementById("dateFromModal").showModal()
-              }
-            >
-              <span className="text-sm text-default-500">از:</span>
-              <p className="font-medium text-default-900">
-                {dateFrom
-                  ? `${dateFrom.year}/${
-                      monthNames.indexOf(dateFrom.month) + 1
-                    }/${dateFrom.day}`
-                  : ""}
-              </p>
-              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
-            </button>
-            <button
-              className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
-              onClick={() => document.getElementById("dateToModal").showModal()}
-            >
-              <span className="text-sm text-default-500">تا:</span>
-              <p className="font-medium text-default-900">
-                {dateTo
-                  ? `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${
-                      dateTo.day
-                    }`
-                  : ""}
-              </p>
-              <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
-            </button>
-          </div>
-          <div className="mt-8 flex items-center gap-10">
-            {items.map((item) => (
-              <Checkbox
-                key={item.id}
-                data={item}
-                onChange={checkHandler}
-                checked={
-                  selected.findIndex((i) => i.id === item.id) !== -1
-                    ? true
-                    : false
-                }
-                hasLine={false}
-              />
-            ))}
-          </div>
+      <div className={`px-6 tradeFilter relative ${isVisible ? "" : "hide"}`}>
+        <p className="text-sm text-default-500 mb-2">تاریخ</p>
+        <div className="flex gap-4">
+          <button
+            className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
+            onClick={() => document.getElementById("dateFromModal").showModal()}
+          >
+            <span className="text-sm text-default-500">از:</span>
+            <p className="font-medium text-default-900">
+              {dateFrom
+                ? `${dateFrom.year}/${monthNames.indexOf(dateFrom.month) + 1}/${
+                    dateFrom.day
+                  }`
+                : ""}
+            </p>
+            <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+          </button>
+          <button
+            className="border border-[#C2C2C2] rounded-lg py-3 pr-4 pl-3 flex-1 flex justify-between items-center"
+            onClick={() => document.getElementById("dateToModal").showModal()}
+          >
+            <span className="text-sm text-default-500">تا:</span>
+            <p className="font-medium text-default-900">
+              {dateTo
+                ? `${dateTo.year}/${monthNames.indexOf(dateTo.month) + 1}/${
+                    dateTo.day
+                  }`
+                : ""}
+            </p>
+            <span className="icon-light-linear-Calender-1 text-xl text-400"></span>
+          </button>
         </div>
-        {isLoading ? (
-          <Loading />
-        ) : data.length === 0 ? (
-          <p className="text-center text-default-400 text-lg mt-4">
-            آگهی یافت نشد ...
-          </p>
-        ) : (
-          <div className="px-4">
-            {data.map((card, index, arr) => {
+        <div className="mt-8 flex items-center gap-10">
+          {items.map((item, index) => (
+            <Checkbox
+              key={item.id}
+              data={item}
+              onChange={checkHandler}
+              checked={selected[index]}
+              hasLine={false}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="px-4 mb-16 bg-surface-secondary">
+        <div role="tablist" className="tabs tabs-lifted *:text-base">
+          <a
+            role="tab"
+            className={`tab text-default-500 [--tab-border-color:#F5F5F5] ${
+              activeTab === 1
+                ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
+                : ""
+            }`}
+            onClick={() => setActiveTab(1)}
+          >
+            در انتظار پرداخت
+          </a>
+          <a
+            role="tab"
+            className={`tab text-default-500 [--tab-border-color:#F5F5F5] ${
+              activeTab === 2
+                ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
+                : ""
+            }`}
+            onClick={() => setActiveTab(2)}
+          >
+            معاملات انجام شده
+          </a>
+        </div>
+        <div
+          className={`py-6 px-4 bg-default-50 rounded-b-xl h-full ${
+            activeTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
+          }`}
+        >
+          {activeTab === 1 ? (
+            isLoading ? (
+              <Loading />
+            ) : data.length === 0 ? (
+              <div className="flex flex-col items-center gap-6">
+                <span className="icon-light-linear-Document-Justify-Right-1 text-[96px] text-default-300"></span>
+                <p className="text-center text-default-400 text-lg mt-4">
+                  شما هیچ فاکتور در انتظار پرداختی ندارید.
+                </p>
+              </div>
+            ) : (
+              data.map((card) => (
+                <MyTradeCard
+                  key={card.id}
+                  card={card}
+                  province={provinces.find(
+                    (item) => item.id === card.origin_field1
+                  )}
+                  typeOfTrade="unDone"
+                />
+              ))
+            )
+          ) : isLoading ? (
+            <Loading />
+          ) : data.length === 0 ? (
+            <div className="flex flex-col items-center gap-6">
+              <span className="icon-light-linear-Document-Justify-Right-1 text-[96px] text-default-300"></span>
+              <p className="text-center text-default-400 text-lg mt-4">
+                شما هیچ معامله ای ندارید
+              </p>
+            </div>
+          ) : (
+            data.map((card, index, arr) => {
               let isEqual = false;
               if (index !== 0) {
                 let previous = new Date(arr[index - 1].reg_date);
@@ -188,15 +257,16 @@ export default function Page() {
                     province={provinces.find(
                       (item) => item.id === card.origin_field1
                     )}
+                    typeOfTrade="done"
                   />
                 </>
               );
-            })}
-          </div>
-        )}
+            })
+          )}
+        </div>
       </div>
       <HistoryModal id="dateFromModal" setDateValue={setDateFrom} />
       <HistoryModal id="dateToModal" setDateValue={setDateTo} />
-    </div>
+    </>
   );
 }

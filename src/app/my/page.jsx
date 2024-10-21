@@ -1,4 +1,5 @@
 "use client";
+import { useField, useProfile } from "@/store/profileState";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,6 +10,11 @@ export default function Page() {
       icon: "icon-light-linear-Message-35",
       text: "پیام‌ها",
       href: "messages",
+    },
+    {
+      icon: "icon-light-linear-Dollar-Square",
+      text: "پیشنهاد قیمت",
+      href: "priceSuggestion",
     },
     {
       icon: "icon-icon-my-ads-1",
@@ -50,6 +56,8 @@ export default function Page() {
   const router = useRouter();
   const [profile, setProfile] = useState({});
   const [token, setToken] = useState("");
+  const removeAllProfile = useProfile(state => state.removeAllProfile)
+  const removeAll = useField(state => state.removeAll)
 
   const saveProfileToLocalStorage = (profileData) => {
     localStorage.setItem("profile", JSON.stringify(profileData));
@@ -98,8 +106,9 @@ export default function Page() {
       };
       getData();
     }
-  }, [token, profile]);
+  }, [token]);
   useEffect(() => {
+    console.log(Object.entries(profile).length === 0 ? 'true' : 'false')
     sessionStorage.clear('current-password')
   }, [])
   return (
@@ -147,7 +156,7 @@ export default function Page() {
     <div className="p-4 flex flex-col items-center max-w-full w-[440px]">
       <div className="w-full">
         <div className="h-[132px] border-solid border-[2px] border-default-400 rounded-xl flex flex-col overflow-hidden">
-          <div className="h-[73px] pr-3 pl-2 flex items-center justify-between bg-secondary">
+          <Link href='/my/profile' className="h-[73px] pr-3 pl-2 flex items-center justify-between bg-secondary">
             <div className="flex items-center gap-3">
               <span className="icon-light-bold-Profile-Octagon text-[32px]"></span>
               <div>
@@ -160,8 +169,10 @@ export default function Page() {
               </div>
             </div >
             <span className="icon-light-linear-Left-2 text-2xl"></span>
-          </div >
+          </Link >
           <div className="mt-auto py-3 pr-3 pl-2 flex items-center justify-between bg-default-100">
+          </div >
+          <Link href='/my/wallet' className="mt-auto py-3 pr-3 pl-2 flex items-center justify-between bg-default-100">
             <div className="flex items-center gap-3">
               <span className="icon-light-outline-Wallet text-2xl"></span>
               <p className="text-default-700">کیف پول</p>
@@ -175,7 +186,7 @@ export default function Page() {
               </p>
               <span className="icon-light-linear-Left-2 text-2xl"></span>
             </div>
-          </div>
+          </Link>
         </div >
       </div >
       <ul className="w-full mt-4 flex flex-col gap-2">
@@ -187,6 +198,8 @@ export default function Page() {
             onClick={async () => {
               if (list.href === "/") {
                 localStorage.clear('profile')
+                removeAllProfile()
+                removeAll()
                 try {
                   const res = await fetch(
                     `${process.env.NEXT_PUBLIC_EGG_MARKET}/API/customers/logout`,

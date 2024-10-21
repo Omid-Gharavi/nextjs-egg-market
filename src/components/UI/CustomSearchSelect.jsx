@@ -62,7 +62,7 @@ export default function CustomSearchSelect({
   };
 
   return (
-    <div className="custom--dropdown-container bg-default-50 border-default-400">
+    <div className="custom--dropdown-container bg-default-50 border-[#C2C2C2]">
       <div
         ref={inputRef}
         onClick={() => setShowMenu(!showMenu)}

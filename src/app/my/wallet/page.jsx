@@ -1,16 +1,14 @@
 "use client";
 import MyTransactionCard from "@/components/Cards/MyTransactionCard";
 import BottomModal from "@/components/Modal/BottomModal";
-import Button from "@/components/UI/Button";
+import DepositTabs from "@/components/wallet/depositTabs";
+import WithdrawTab from "@/components/wallet/WithdrawTab";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Num2persian from "num2persian";
-import React, { useState } from "react";
+import React from "react";
 
 export default function Page() {
   const { back } = useRouter();
-  const [depositValue, setDepositValue] = useState("");
-  const [withdrawValue, setWithdrawValue] = useState("");
 
   return (
     <div className="bg-default-50 min-h-screen flex flex-col">
@@ -70,12 +68,7 @@ export default function Page() {
       >
         همه گردش‌های کیف پول
       </Link>
-      <BottomModal
-        id="depositModal"
-        onClose={() => {}}
-        title="افزایش موجودی"
-        type="deposit"
-      >
+      <BottomModal id="depositModal" onClose={() => {}}>
         <form
           method="dialog"
           className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
@@ -85,44 +78,9 @@ export default function Page() {
             <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
           </button>
         </form>
-        <div className="p-8">
-          <p className="text-default-700 text-sm mb-4">
-            مبلغ مورد نظر برای افزایش موجودی را وارد کنید
-          </p>
-          <div className="relative w-full mb-2 gap-1 rounded-xl border border-[#C2C2C2] bg-default-50 focus:bg-white focus:border-tertiary py-3 px-6">
-            <input
-              id="depositInput"
-              className="w-full text-center placeholder:text-default-400 text-[#178230] font-black placeholder:font-normal depositInput outline-none"
-              value={depositValue}
-              onChange={(e) => setDepositValue(e.target.value)}
-              placeholder="مبلغ (تومان)"
-            />
-            {/* {depositValue.length > 0 && (
-              <p className="absolute top-0 left-0">تومان</p>
-            )} */}
-          </div>
-          <p className="text-sm text-default-400">
-            {depositValue.length >= 4 && `${Num2persian(depositValue)} تومان`}
-          </p>
-        </div>
-        <form
-          method="dialog"
-          className="flex-0 bg-white border-t-default-300 modalShadow px-6 py-4 w-full"
-        >
-          <Button
-            type="button-primary"
-            text="افزایش موجودی"
-            onClick={() => {}}
-            width="w-full"
-            disabled={!depositValue}
-          />
-        </form>
+        <DepositTabs />
       </BottomModal>
-      <BottomModal
-        id="withdrawModal"
-        onClose={() => {}}
-        title="نقد کردن موجودی"
-      >
+      <BottomModal id="withdrawModal" onClose={() => {}}>
         <form
           method="dialog"
           className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
@@ -132,32 +90,7 @@ export default function Page() {
             <span className="icon-light-bold-Close text-2xl text-[#2D264B]"></span>
           </button>
         </form>
-        <div className="p-8">
-          <p className="text-default-700 text-sm mb-4">
-            مبلغ مورد نظر برای نقد کردن موجودی را وارد کنید
-          </p>
-          <input
-            className="relative text-center mb-2 w-full rounded-xl border border-[#C2C2C2] bg-default-50 focus:bg-white focus:border-tertiary py-3 placeholder:text-default-400 text-[#D33C30] font-black placeholder:font-normal depositInput px-6"
-            value={withdrawValue}
-            onChange={(e) => setWithdrawValue(e.target.value)}
-            placeholder="مبلغ (تومان)"
-          />
-          <p className="text-sm text-default-400">
-            {withdrawValue.length >= 4 && `${Num2persian(withdrawValue)} تومان`}
-          </p>
-        </div>
-        <form
-          method="dialog"
-          className="flex-0 bg-white border-t-default-300 modalShadow px-6 py-4 w-full"
-        >
-          <Button
-            type="button-primary"
-            text="نقد کردن موجودی"
-            onClick={() => {}}
-            width="w-full"
-            disabled={!withdrawValue}
-          />
-        </form>
+        <WithdrawTab />
       </BottomModal>
     </div>
   );

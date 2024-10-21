@@ -1,6 +1,6 @@
 export default function BottomModal({ id, children, onClose }) {
   return (
-    <dialog id={id} className="modal modal-bottom sm:modal-middle">
+    <dialog id={id} className="modal modal-bottom max-w-[440px] mx-auto">
       <div className="modal-box overflow-hidden p-0 rounded-t-lg flex flex-col">
         {children}
       </div>

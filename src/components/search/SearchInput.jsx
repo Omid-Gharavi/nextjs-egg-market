@@ -148,7 +148,7 @@ const SearchInput = () => {
       </div>
       <div className="mt-2">
         {lists.map((list, index) => (
-          <>
+          <div key={index + 1}>
             <div className="mt-4 flex px-6" key={index + 1}>
               <div className="flex items-center gap-2">
                 <span
@@ -185,7 +185,7 @@ const SearchInput = () => {
                 <div className="h-px mt-[14px] bg-default-300 w-full"></div>
               </>
             )}
-          </>
+          </div >
         ))}
         {[
           {
@@ -201,7 +201,7 @@ const SearchInput = () => {
           },
         ].map((list, index) => (
           <div
-            key={index}
+            key={index + 1}
             className="max-w-[364px] h-[78px] mx-4 rounded-lg shadow-[0px_1px_4px_0px_#00000026] mt-[18px] py-3 px-4"
           >
             <div className="flex items-center">
@@ -219,7 +219,7 @@ const SearchInput = () => {
             </div>
             <div className="mt-2 flex">
               {list.filters.map((filter, index) => (
-                <p key={index} className="text-default-700 text-sm font-normal">
+                <p key={index + 1} className="text-default-700 text-sm font-normal">
                   {filter}
                   {index < list.filters.length - 1 && " -"}
                 </p>
@@ -227,7 +227,7 @@ const SearchInput = () => {
             </div>
           </div>
         ))}
-      </div>
+      </div >
     </>
   );
 };

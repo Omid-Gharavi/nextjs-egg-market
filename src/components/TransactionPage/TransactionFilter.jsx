@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../UI/Button";
 import { monthNames } from "../static";
 import HistoryModal from "../Modal/HistoryModal";
@@ -179,14 +179,14 @@ export default function TransactionFilter({
               dateTo: "",
               priceFrom: "",
               priceTo: "",
-              filter: [1,2],
+              filter: [1, 2],
             });
             setFilterValues({
               dateFrom: "",
               dateTo: "",
               priceFrom: "",
               priceTo: "",
-              filter: [1,2],
+              filter: [1, 2],
             });
           }}
         />

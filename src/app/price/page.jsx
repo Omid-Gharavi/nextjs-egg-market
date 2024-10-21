@@ -1,6 +1,7 @@
 "use client";
 import HistoryModal from "@/components/Modal/HistoryModal";
 import { monthNames } from "@/components/static";
+import { trimPrice } from "@/utils/trimPrice";
 import axios from "axios";
 import moment from "jalali-moment";
 import React, { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ export default function Page() {
     weekday: today.jDay(),
   });
   const [dayCounter, setDayCounter] = useState(0);
+  const [visibleDate, setVisibleDate] = useState("");
 
   const getDiference = () => {
     let m = moment(); // Parse a Jalaali date
@@ -86,6 +88,7 @@ export default function Page() {
         .then((response) => {
           setIsLoading(false);
           setData(response.data);
+          setVisibleDate(response.data.list_title);
         })
         .catch((error) => {
           setIsLoading(false);
@@ -97,7 +100,7 @@ export default function Page() {
 
   return (
     <div className="relative max-w-[440px]">
-      <div className="bg-surface-secondary p-4">
+      <div className="sticky top-0 bg-surface-secondary p-4 z-10">
         <div className="flex items-center justify-between bg-default-50 px-3 border border-[rgb(194,194,194)] rounded-xl h-12">
           <button
             className="flex items-center gap-0.5"
@@ -122,8 +125,10 @@ export default function Page() {
             }
           >
             <p className="flex items-center gap-1 text-default-900 font-medium">
-              {`${weekdays[dateValue.weekday]}، ${dateValue.year}/${monthNames.indexOf(dateValue.month) + 1
-                }/${dateValue.day}`}
+              {/* {`${weekdays[dateValue.weekday]}، ${dateValue.year}/${
+                monthNames.indexOf(dateValue.month) + 1
+              }/${dateValue.day}`} */}
+              {visibleDate}
             </p>
             <span className="icon-light-linear-Calender-1 text-xl text-primary"></span>
           </button>
@@ -229,10 +234,10 @@ export default function Page() {
                                 }
                               </td>
                               <td className="text-sm border-l border-r border-default-200">
-                                {minPrice ? minPrice : "--"}
+                                {minPrice ? trimPrice(minPrice) : "--"}
                               </td>
                               <td className="text-sm">
-                                {maxPrice ? maxPrice : "--"}
+                                {maxPrice ? trimPrice(maxPrice) : "--"}
                               </td>
                             </tr>
                           )
@@ -282,9 +287,9 @@ export default function Page() {
                               }
                             </td>
                             <td className="border-l border-r border-default-200">
-                              {firstPrice ? firstPrice : "--"}
+                              {firstPrice ? trimPrice(firstPrice) : "--"}
                             </td>
-                            <td>{lastPrice ? lastPrice : "--"}</td>
+                            <td>{lastPrice ? trimPrice(lastPrice) : "--"}</td>
                           </tr>
                         )
                       )}
