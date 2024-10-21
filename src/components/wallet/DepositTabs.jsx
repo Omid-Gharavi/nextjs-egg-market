@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Button from "../UI/Button";
-import Num2persian from "num2persian";
+import Num2persian from "num2persian/dist/num2persian";
 import { adjustWidthOfInput } from "@/utils/adjustWidthOfInput";
 
 export default function DepositTabs() {
@@ -20,31 +20,28 @@ export default function DepositTabs() {
         <div role="tablist" className="tabs flex tabs-lifted *:text-base">
           <a
             role="tab"
-            className={`tab flex-1 text-default-500 [--tab-border-color:#F5F5F5] ${
-              selectedTab === 1
-                ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
-                : ""
-            }`}
+            className={`tab flex-1 text-default-500 [--tab-border-color:#F5F5F5] ${selectedTab === 1
+              ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
+              : ""
+              }`}
             onClick={() => setSelectedTab(1)}
           >
             واریز آنی
           </a>
           <a
             role="tab"
-            className={`tab flex-1 text-default-500 [--tab-border-color:#F5F5F5] ${
-              selectedTab === 2
-                ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
-                : ""
-            }`}
+            className={`tab flex-1 text-default-500 [--tab-border-color:#F5F5F5] ${selectedTab === 2
+              ? "tab-active [--tab-bg:var(--default-50)] text-tertiary font-medium"
+              : ""
+              }`}
             onClick={() => setSelectedTab(2)}
           >
             ثبت فیش واریزی
           </a>
         </div>
         <div
-          className={`py-6 px-4 bg-default-50 rounded-b-xl h-full ${
-            selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
-          }`}
+          className={`py-6 px-4 bg-default-50 rounded-b-xl h-full ${selectedTab === 1 ? "rounded-tl-xl" : "rounded-tr-xl"
+            }`}
         >
           {selectedTab === 1 ? (
             <div className="px-8 pt-10">
@@ -53,30 +50,28 @@ export default function DepositTabs() {
               </p>
               <div className="flex gap-1 items-center relative mb-2 w-full rounded-xl border border-[#C2C2C2] bg-default-50 focus:bg-white focus:border-tertiary py-3 px-6">
                 <input
-                  className={`placeholder:text-default-400 bg-inherit text-[#178230] font-black placeholder:font-normal flex-none ${
-                    depositValue ? `` : "w-full"
-                  }`}
+                  className={`placeholder:text-default-400 bg-inherit text-[#178230] font-black placeholder:font-normal flex-none ${depositValue ? `` : "w-full"
+                    }`}
                   value={depositValue}
                   onChange={(e) => {
                     setDepositValue(e.target.value);
                     e.target.value !== ""
                       ? adjustWidthOfInput(
-                          document.getElementById("walletDepositInput")
-                        )
+                        document.getElementById("walletDepositInput")
+                      )
                       : document
-                          .getElementById("walletDepositInput")
-                          .style.removeProperty("width");
+                        .getElementById("walletDepositInput")
+                        .style.removeProperty("width");
                   }}
                   id="walletDepositInput"
                   placeholder="مبلغ (تومان)"
                   type="number"
                 />
                 <span
-                  className={`${
-                    depositValue
-                      ? "flex-1 text-xs text-default-500 font-medium "
-                      : "hidden"
-                  }`}
+                  className={`${depositValue
+                    ? "flex-1 text-xs text-default-500 font-medium "
+                    : "hidden"
+                    }`}
                 >
                   تومان
                 </span>
@@ -90,9 +85,8 @@ export default function DepositTabs() {
             <>
               <div className="flex gap-1 items-center relative w-full rounded-xl border border-[#C2C2C2] bg-default-50 focus:bg-white focus:border-tertiary py-3 px-6">
                 <input
-                  className={`placeholder:text-default-400 text-[#178230] font-black placeholder:font-normal flex-none ${
-                    billRegister.depositValue ? `` : "w-full"
-                  }`}
+                  className={`placeholder:text-default-400 text-[#178230] font-black placeholder:font-normal flex-none ${billRegister.depositValue ? `` : "w-full"
+                    }`}
                   value={billRegister.depositValue}
                   onChange={(e) => {
                     setBillRegister({
@@ -101,22 +95,21 @@ export default function DepositTabs() {
                     });
                     e.target.value !== ""
                       ? adjustWidthOfInput(
-                          document.getElementById("walletDepositBillInput")
-                        )
+                        document.getElementById("walletDepositBillInput")
+                      )
                       : document
-                          .getElementById("walletDepositBillInput")
-                          .style.removeProperty("width");
+                        .getElementById("walletDepositBillInput")
+                        .style.removeProperty("width");
                   }}
                   id="walletDepositBillInput"
                   placeholder="مبلغ (تومان)"
                   type="number"
                 />
                 <span
-                  className={`${
-                    billRegister.depositValue
-                      ? "flex-1 text-xs text-default-500 font-medium "
-                      : "hidden"
-                  }`}
+                  className={`${billRegister.depositValue
+                    ? "flex-1 text-xs text-default-500 font-medium "
+                    : "hidden"
+                    }`}
                 >
                   تومان
                 </span>
@@ -177,7 +170,7 @@ export default function DepositTabs() {
           <Button
             type="button-primary"
             text="افزایش موجودی"
-            onClick={() => {}}
+            onClick={() => { }}
             width="w-full"
             disabled={!depositValue || depositValue === "0"}
           />
@@ -185,7 +178,7 @@ export default function DepositTabs() {
           <Button
             type="button-primary"
             text="ثبت"
-            onClick={() => {}}
+            onClick={() => { }}
             width="w-full"
             disabled={
               !billRegister.depositValue ||
