@@ -1,7 +1,7 @@
 "use client";
 import MyTransactionCard from "@/components/Cards/MyTransactionCard";
 import BottomModal from "@/components/Modal/BottomModal";
-import DepositTabs from "@/components/wallet/depositTabs";
+import DepositTabs from "@/components/wallet/DepositTabs";
 import WithdrawTab from "@/components/wallet/WithdrawTab";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -68,7 +68,7 @@ export default function Page() {
       >
         همه گردش‌های کیف پول
       </Link>
-      <BottomModal id="depositModal" onClose={() => {}}>
+      <BottomModal id="depositModal" onClose={() => { }}>
         <form
           method="dialog"
           className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
@@ -80,7 +80,7 @@ export default function Page() {
         </form>
         <DepositTabs />
       </BottomModal>
-      <BottomModal id="withdrawModal" onClose={() => {}}>
+      <BottomModal id="withdrawModal" onClose={() => { }}>
         <form
           method="dialog"
           className="flex-0 flex justify-between items-center py-4 px-6 border-b border-default-300"
