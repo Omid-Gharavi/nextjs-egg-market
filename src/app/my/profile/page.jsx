@@ -19,7 +19,7 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const storedPhone = JSON.parse(localStorage.getItem('profile'))
-        setPhone(storedPhone.mobile)
+        setPhone(storedPhone?.mobile)
         console.log('sheba:', userSheba.length)
     }, [])
 
