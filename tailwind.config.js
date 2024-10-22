@@ -58,6 +58,9 @@ module.exports = {
       boxShadow: {},
     },
   },
+  daisyui: {
+    themes: ["light"],
+  },
 
   plugins: [require("daisyui")],
 };
